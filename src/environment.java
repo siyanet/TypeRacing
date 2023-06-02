@@ -3,6 +3,8 @@
 import javafx.application.Application;
 
 import javafx.scene.*;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -27,6 +29,8 @@ public class environment extends Application {
     @Override
     public void start(Stage stage) throws Exception {
        Pane pane = new Pane();
+        Canvas canvas = new Canvas(700,700);
+        GraphicsContext gc = canvas.getGraphicsContext2D();
        Group root = new Group();
        Group subSceneParent = new Group();
        Pane fixedPane = new Pane();
@@ -54,14 +58,18 @@ public class environment extends Application {
         subSceneOne.heightProperty().bind(stage.heightProperty().divide(3));
        // subSceneParent.getChildren().add(subSceneOne);
 
-        Polygon grassside1 = new Polygon();
-        grassside1.setFill(Color.FORESTGREEN);
-        grassside1.setStrokeWidth(0);
-        Double[] pointsone = {  0.0,0.0,
+      //  Polygon grassside1 = new Polygon();
+       // grassside1.setFill(Color.FORESTGREEN);
+       // grassside1.setStrokeWidth(0);
+        /*double[] pointsOne = {  0.0,0.0,
                 0.0,700.0,
-                200.0,0.0};
-        grassside1.getPoints().addAll(pointsone);
-        pane.widthProperty().addListener((observable, oldValue, newValue) ->
+                200.0,0.0};*/
+        double[]pointsOne = {0.0,0.0,200.0};
+        double[] pointOneIndex = {0.0,700.0,0.0};
+        //grassside1.getPoints().addAll(pointOne);
+        gc.setFill(Color.FORESTGREEN);
+        gc.fillPolygon(pointsOne, pointOneIndex,pointsOne.length);
+       /* pane.widthProperty().addListener((observable, oldValue, newValue) ->
                 grassside1.getPoints().setAll(
                         0.0, 0.0,
                         0.0, 700.0,
@@ -72,10 +80,10 @@ public class environment extends Application {
                         0.0, 0.0,
                         0.0 , newValue.doubleValue(),
                         pane.getWidth() / 4 + pane.getWidth()/4/2, 0.0
-                ));
+                ));*/
 
-        grassside1.setStrokeWidth(0);
-        Polygon grassside2 = new Polygon();
+       // grassside1.setStrokeWidth(0);
+       /* Polygon grassside2 = new Polygon();
         Double[] pointstwo = { 500.0,0.0,
                 700.0,0.0,
                 700.0,700.0};
@@ -269,17 +277,21 @@ public class environment extends Application {
         pane.getChildren().add(rightSideTrees[1]);
         //pane.getChildren().add(leftSideTrees[2]);
         pane.getChildren().add(leftLine);
-        pane.getChildren().add(rightLine);
-        SubScene subSceneTwo = new SubScene(pane,700,467);
-        pane.setBackground(new Background(new BackgroundFill(Color.YELLOW,null,null)));
+        pane.getChildren().add(rightLine);*/
+       // SubScene subSceneTwo = new SubScene(pane,700,467);
+        Group rfS = new Group();
+        rfS.getChildren().add(canvas);
+        SubScene subSceneTwo = new SubScene(rfS,700,467);
+
+       /* pane.setBackground(new Background(new BackgroundFill(Color.YELLOW,null,null)));
         pane.prefHeightProperty().bind(subSceneTwo.heightProperty());
-        pane.prefWidthProperty().bind(subSceneTwo.widthProperty());
-        subSceneTwo.setOnKeyTyped(new TypeEventHandler());
+        pane.prefWidthProperty().bind(subSceneTwo.widthProperty());*/
         subSceneTwo.widthProperty().bind(stage.widthProperty());
         subSceneTwo.heightProperty().bind(stage.heightProperty());
-        subSceneTwo.setCamera(camera);
-        subSceneParent.getChildren().add(subSceneTwo);
+       // subSceneTwo.setCamera(camera);
+
         subSceneParent.getChildren().add(subSceneOne);
+        subSceneParent.getChildren().add(subSceneTwo);
         root.getChildren().add(subSceneParent);
 
         Scene scene = new Scene(root,700,700);
