@@ -5,6 +5,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -25,6 +27,7 @@ static     double[]grassOnePointsX = {0.0,0.0,300.0};
   static  double[] roadPointsX = {300.0,0.0,700.0,400.0};
    static double[] roadPointsY = {0.0,700.0,700.0,0.0};
   static Canvas canvas;
+  static Pane cameraPane;
   static SubScene subSceneTwo;
    static GraphicsContext gc;
     public static void draw(GraphicsContext gc, double[]grassOnePointsX,double[]grassOnePointsY,double[]grassTwoPointsX,double[]
@@ -39,7 +42,7 @@ static     double[]grassOnePointsX = {0.0,0.0,300.0};
 
     @Override
     public void start(Stage stage) throws Exception {
-        canvas = new Canvas(700,700);
+        canvas = new Canvas(700,467);
         gc = canvas.getGraphicsContext2D();
         Group root = new Group();
         Group subSceneParent = new Group();
@@ -65,23 +68,29 @@ static     double[]grassOnePointsX = {0.0,0.0,300.0};
         fixedPane.prefHeightProperty().bind(stage.heightProperty());
         subSceneOne.heightProperty().bind(stage.heightProperty().divide(3));
 
-     /*   gc.setFill(Color.FORESTGREEN);
-        gc.fillPolygon(grassOnePointsX, grassOnePointsY,grassOnePointsX.length);
-        gc.fillPolygon(grassTwoPointsX,grassTwoPointsY,grassTwoPointsX.length);
-
-       gc.setFill(Color.GRAY);
-        gc.fillPolygon(roadPointsX,roadPointsY,roadPointsY.length);*/
-        Group rfS = new Group();
-        rfS.getChildren().add(canvas);
-        subSceneTwo = new SubScene(rfS,700,467);
-        subSceneTwo.setFill(Color.YELLOW);
+        cameraPane= new Pane();
+        cameraPane.setBackground(new Background(new BackgroundFill(Color.ROYALBLUE,null,null)));
         draw(gc,grassOnePointsX,grassOnePointsY,grassTwoPointsX,grassTwoPointsY,roadPointsX,roadPointsY);
+        cameraPane.setPrefWidth(700);
+        cameraPane.getChildren().add(canvas);
+        subSceneTwo = new SubScene(cameraPane,700,700);
+        subSceneTwo.setFill(Color.YELLOW);
+
+
+        subSceneTwo.setLayoutX(0);
+        subSceneTwo.setLayoutY(273);
+        cameraPane.setLayoutY(0);
+        subSceneTwo.setHeight(700);
 
       //  subSceneTwo.widthProperty().bind(stage.widthProperty());
-      //  subSceneTwo.heightProperty().bind(stage.heightProperty());
-      // canvas.widthProperty().bind(stage.widthProperty());
-     // canvas.heightProperty().bind(stage.heightProperty());
-       /*subSceneTwo.widthProperty().addListener((observable, oldValue,newValue) ->{
+       // subSceneTwo.heightProperty().bind(stage.heightProperty().divide(3).multiply(2));
+        //subSceneTwo.layoutYProperty().bind(stage.heightProperty().divide(3));
+      //  cameraPane.prefWidthProperty().bind(subSceneTwo.widthProperty());
+     //   cameraPane.prefHeightProperty().bind(subSceneTwo.heightProperty());
+        //cameraPane.layoutYProperty().bind(stage.heightProperty().divide(3));
+
+
+     /*  subSceneTwo.widthProperty().addListener((observable, oldValue,newValue) ->{
                grassOnePointsX[2] =   newValue.doubleValue() / 4 + (newValue.doubleValue() / 4 /2);
                gc.setFill(Color.FORESTGREEN);
                gc.fillPolygon(grassOnePointsX,grassOnePointsY,grassOnePointsX.length);}
@@ -94,15 +103,20 @@ static     double[]grassOnePointsX = {0.0,0.0,300.0};
         car.setFitWidth(200);
 
         camera = new PerspectiveCamera(true);
-        camera.setTranslateX(350);
-        camera.setTranslateY(340);
+        camera.setTranslateX(360);
+        camera.setTranslateY(280);
 
-        camera.setTranslateZ(-1300);
+        camera.setTranslateZ(-900);
         camera.setFarClip(18000);
         camera.setNearClip(0.1);
         subSceneTwo.setCamera(camera);
-        subSceneParent.getChildren().add(subSceneTwo);
+
+
+
+
         subSceneParent.getChildren().add(subSceneOne);
+        subSceneParent.getChildren().add(subSceneTwo);
+
 
         root.getChildren().add(subSceneParent);
 

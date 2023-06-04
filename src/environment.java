@@ -58,9 +58,9 @@ public class environment extends Application {
         subSceneOne.heightProperty().bind(stage.heightProperty().divide(3));
        // subSceneParent.getChildren().add(subSceneOne);
 
-      //  Polygon grassside1 = new Polygon();
-       // grassside1.setFill(Color.FORESTGREEN);
-       // grassside1.setStrokeWidth(0);
+        Polygon grassside1 = new Polygon();
+        grassside1.setFill(Color.FORESTGREEN);
+       grassside1.setStrokeWidth(0);
         /*double[] pointsOne = {  0.0,0.0,
                 0.0,700.0,
                 200.0,0.0};*/
@@ -69,7 +69,7 @@ public class environment extends Application {
         //grassside1.getPoints().addAll(pointOne);
         gc.setFill(Color.FORESTGREEN);
         gc.fillPolygon(pointsOne, pointOneIndex,pointsOne.length);
-       /* pane.widthProperty().addListener((observable, oldValue, newValue) ->
+        pane.widthProperty().addListener((observable, oldValue, newValue) ->
                 grassside1.getPoints().setAll(
                         0.0, 0.0,
                         0.0, 700.0,
@@ -80,10 +80,10 @@ public class environment extends Application {
                         0.0, 0.0,
                         0.0 , newValue.doubleValue(),
                         pane.getWidth() / 4 + pane.getWidth()/4/2, 0.0
-                ));*/
+                ));
 
        // grassside1.setStrokeWidth(0);
-       /* Polygon grassside2 = new Polygon();
+       Polygon grassside2 = new Polygon();
         Double[] pointstwo = { 500.0,0.0,
                 700.0,0.0,
                 700.0,700.0};
@@ -277,7 +277,7 @@ public class environment extends Application {
         pane.getChildren().add(rightSideTrees[1]);
         //pane.getChildren().add(leftSideTrees[2]);
         pane.getChildren().add(leftLine);
-        pane.getChildren().add(rightLine);*/
+        pane.getChildren().add(rightLine);
        // SubScene subSceneTwo = new SubScene(pane,700,467);
         Group rfS = new Group();
         rfS.getChildren().add(canvas);
