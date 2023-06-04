@@ -3,6 +3,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -11,6 +12,8 @@ import javafx.scene.text.FontPosture;
 import javafx.stage.Stage;
 
 public class SignUp extends Application {
+    static PasswordField textFieldPassword;
+   static TextField textFieldName;
     @Override
     public void start(Stage stage) throws Exception {
         HBox hBox = new HBox();
@@ -45,11 +48,11 @@ public class SignUp extends Application {
         labelTextOne.setTextFill(Color.WHITE);
        // labelCreateAccount.layoutXProperty().bind(vboxOne.widthProperty().divide(2).subtract(labelCreateAccount.getWidth()));
        // labelCreateAccount.layoutYProperty().bind(vboxOne.heightProperty().divide(6));
-        TextField textFieldName = new TextField();
+        textFieldName = new TextField();
         textFieldName.setMinWidth(50);
        // textFieldName.layoutXProperty().bind(pane.widthProperty().divide(2).subtract(25));
        // textFieldName.layoutYProperty().bind(pane.heightProperty().divide(5));
-        TextField textFieldPassword = new TextField();
+        textFieldPassword = new PasswordField();
         textFieldPassword.setMinWidth(50);
        // textFieldPassword.layoutXProperty().bind(pane.widthProperty().divide(2).subtract(25));
        // textFieldPassword.layoutYProperty().bind(pane.heightProperty().divide(4));
@@ -92,6 +95,8 @@ public class SignUp extends Application {
         vBoxWelcome.prefHeightProperty().bind(paneWelcome.prefHeightProperty().divide(2));
         vBoxWelcome.prefWidthProperty().bind(paneWelcome.prefWidthProperty());
         vBoxWelcome.layoutYProperty().bind(paneWelcome.prefHeightProperty().divide(2).subtract(vBoxWelcome.prefHeightProperty().divide(2)));
+        signUpButton.setOnAction(new SignUpHandler());
+
         stage.setScene(scene);
         stage.show();
 
