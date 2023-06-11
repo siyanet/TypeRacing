@@ -14,9 +14,12 @@ import javafx.stage.Stage;
 public class SignUp extends Application {
     static PasswordField textFieldPassword;
    static TextField textFieldName;
+   static Scene signUpScene;
+   static HBox hBox;
+   static Stage stageCopy;
     @Override
     public void start(Stage stage) throws Exception {
-        HBox hBox = new HBox();
+        hBox = new HBox();
         Pane paneCreate = new Pane();
         Pane paneWelcome = new Pane();
         VBox vBoxCreate = new VBox(30);
@@ -50,10 +53,12 @@ public class SignUp extends Application {
        // labelCreateAccount.layoutYProperty().bind(vboxOne.heightProperty().divide(6));
         textFieldName = new TextField();
         textFieldName.setMinWidth(50);
+        textFieldName.setPromptText("Enter Your Name");
        // textFieldName.layoutXProperty().bind(pane.widthProperty().divide(2).subtract(25));
        // textFieldName.layoutYProperty().bind(pane.heightProperty().divide(5));
         textFieldPassword = new PasswordField();
         textFieldPassword.setMinWidth(50);
+        textFieldPassword.setPromptText("Enter Your Password");
        // textFieldPassword.layoutXProperty().bind(pane.widthProperty().divide(2).subtract(25));
        // textFieldPassword.layoutYProperty().bind(pane.heightProperty().divide(4));
         Button signUpButton = new Button("Sign Up");
@@ -83,11 +88,11 @@ public class SignUp extends Application {
         paneWelcome.getChildren().add(vBoxWelcome);
         hBox.getChildren().add(paneWelcome);
         hBox.getChildren().add(paneCreate);
-        Scene scene = new Scene(hBox,700,700);
-        paneWelcome.prefWidthProperty().bind(scene.widthProperty().divide(2));
-        paneWelcome.prefHeightProperty().bind(scene.heightProperty());
-        paneCreate.prefWidthProperty().bind(scene.widthProperty().divide(2));
-        paneCreate.prefHeightProperty().bind(scene.heightProperty());
+        signUpScene = new Scene(hBox,700,700);
+        paneWelcome.prefWidthProperty().bind(signUpScene.widthProperty().divide(2));
+        paneWelcome.prefHeightProperty().bind(signUpScene.heightProperty());
+        paneCreate.prefWidthProperty().bind(signUpScene.widthProperty().divide(2));
+        paneCreate.prefHeightProperty().bind(signUpScene.heightProperty());
         vBoxCreate.prefHeightProperty().bind(paneCreate.prefHeightProperty().divide(2));
         vBoxCreate.prefWidthProperty().bind(paneCreate.prefWidthProperty());
         vBoxCreate.layoutYProperty().bind(paneCreate.prefHeightProperty().divide(2).subtract(vBoxCreate.prefHeightProperty().divide(2)));
@@ -97,9 +102,33 @@ public class SignUp extends Application {
         vBoxWelcome.layoutYProperty().bind(paneWelcome.prefHeightProperty().divide(2).subtract(vBoxWelcome.prefHeightProperty().divide(2)));
         signUpButton.setOnAction(new SignUpHandler());
 
-        stage.setScene(scene);
+        stage.setScene(signUpScene);
+      //  stage.setScene(SignIn.signInScene);
+       /* signInButton.setOnAction(e->{
+            stage.setScene(SignIn.signInScene);
+        });*/
+       // Scene one = SIGNINTWO.getSignInHBox();
+
+        signInButton.setOnAction(e->{
+            stage.setScene(null);
+            stage.setScene(SIGNINTWO.getSignInHBox());
+            SIGNINTWO.signUpButton.setOnAction(event->{
+                stage.setScene(null);
+                stage.setScene(signUpScene);});
+        });
+        stageCopy = stage;
+
         stage.show();
 
+    }
+    public static Stage getStage(){
+        return stageCopy;
+    }
+    public static Scene getSignUpScene(){
+        return signUpScene;
+    }
+    public static HBox gethBox(){
+        return hBox;
     }
     public static void main(String args[]){
             launch(args);

@@ -43,7 +43,7 @@ public class displayword extends Application {
        text.setText(word[0]);
         textField.setOnKeyTyped(event-> {
             if(event.getCode().equals(word[0].charAt(1))){
-                move.dosomething();
+               // move.dosomething();
             }
         }      );
         pane1.getChildren().add(rectangle);

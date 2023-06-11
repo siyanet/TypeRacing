@@ -1,4 +1,3 @@
-import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -11,12 +10,12 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.stage.Stage;
 
-public class SignIn extends Application {
-    static TextField textFieldName;
+public class SIGNINTWO {
     static PasswordField textFieldPassword;
-    static Scene signInScene;
-    @Override
-    public void start(Stage stage) throws Exception {
+    static TextField textFieldName;
+    static Button signUpButton;
+
+    public static Scene getSignInHBox(){
         HBox hBox = new HBox();
         Pane paneSignIn = new Pane();
         Pane paneHello = new Pane();
@@ -59,7 +58,7 @@ public class SignIn extends Application {
         textFieldPassword.setPromptText("Enter Your Password");
         // textFieldPassword.layoutXProperty().bind(pane.widthProperty().divide(2).subtract(25));
         // textFieldPassword.layoutYProperty().bind(pane.heightProperty().divide(4));
-        Button signUpButton = new Button("Sign Up");
+        signUpButton = new Button("Sign Up");
         signUpButton.setStyle("-fx-background-radius: 30px; -fx-padding: 10px 20px; -fx-background-color: green; -fx-text-fill: white;");
         signUpButton.setPrefWidth(160);
         Button signInButton = new Button("Sign In");
@@ -86,8 +85,7 @@ public class SignIn extends Application {
         paneHello.getChildren().add(vBoxHello);
         hBox.getChildren().add(paneSignIn);
         hBox.getChildren().add(paneHello);
-
-        signInScene = new Scene(hBox,700,700);
+       Scene signInScene = new Scene(hBox,700,700);
         paneHello.prefWidthProperty().bind(signInScene.widthProperty().divide(2));
         paneHello.prefHeightProperty().bind(signInScene.heightProperty());
         paneSignIn.prefWidthProperty().bind(signInScene.widthProperty().divide(2));
@@ -100,22 +98,10 @@ public class SignIn extends Application {
         vBoxHello.prefWidthProperty().bind(paneHello.prefWidthProperty());
         vBoxHello.layoutYProperty().bind(paneHello.prefHeightProperty().divide(2).subtract(vBoxHello.prefHeightProperty().divide(2)));
         signInButton.setOnAction(new SignInHandler());
-        HBox hBox1 = SignUp.gethBox();
-        stage.setScene(signInScene);
-        //Scene scenetwo = new Scene(hBox1,700,700);
-     /* stage.setScene(signInScene);
 
-        signUpButton.setOnAction(e->{
-
-           stage.setScene(scenetwo);
-
-        });*/
-        stage.show();
+        return signInScene;
 
     }
-    public static void main(String args[]){
 
-        launch(args);
-    }
-    }
 
+}

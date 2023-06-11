@@ -1,0 +1,16 @@
+.slider-speed .track{
+ -fx-background-color: linear-gradient(to right,   red 0%, /* Start color at 0% */
+                                                     yellow 50%, /* Transition color at 50% */
+                                                     green 100% );/* End color at 100% *);*/
+}
+.slider-speed .thumb{
+-fx-background-color:blue;
+-fx-background-radius: 50%;
+
+}
+.slider-speed .thumb:hover{
+-fx-background-color: green;
+}
+.slider-speed .tick-mark{
+-fx-background-color: blue;
+}

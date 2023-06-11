@@ -1,10 +1,5 @@
-
-
-import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Application;
-
 import javafx.scene.*;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -16,18 +11,15 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
-
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Polyline;
-import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-
-
-public class environment extends Application {
+public class EnvironmentTwo {
+    static Scene scene;
     static Polyline road;
     static Polygon roadCenterTwo;
     static Polygon roadCenter;
@@ -42,25 +34,25 @@ public class environment extends Application {
     static Pane pane;
     static double cameraTranslateY = 350;
     static double cameraTranslateZ = -1300;
-    static double remainingSeconds = 40;
+    static double remainingSeconds = 0;
     static Label timeLabel;
     static Timeline timeline;
     boolean play;
-    int opponentCarY = 0;
-    int opponentCarX = 0;
-    Timeline opponentTimeline;
+   static int opponentCarY = 0;
+  static  int opponentCarX = 0;
+   static Timeline opponentTimeline;
 
-    @Override
-    public void start(Stage stage) throws Exception {
+    public static Scene getEnvironmentTwoScene(int miniute, Stage stage){
+        remainingSeconds= 60 * miniute;
         pane = new Pane();
         Canvas canvas = new Canvas(700,700);
         GraphicsContext gc = canvas.getGraphicsContext2D();
-       Group root = new Group();
-       Group subSceneParent = new Group();
-       Pane fixedPane = new Pane();
+        Group root = new Group();
+        Group subSceneParent = new Group();
+        Pane fixedPane = new Pane();
 
-       // pane.setMinWidth(500);
-         sky = enviromentSky.getSky();
+        // pane.setMinWidth(500);
+        sky = enviromentSky.getSky();
         Pane displayPane = display.getPane();
         timeLabel = new Label();
         timeLabel.setText("Remaining Seconds: " + remainingSeconds + "S");
@@ -83,7 +75,7 @@ public class environment extends Application {
             opponentCarX-=1;
             OpponetMove.move(opponentCarX,opponentCarY);
         }));
-        opponentTimeline.setCycleCount(80);
+        opponentTimeline.setCycleCount(miniute * 120);
        /* if(remainingSeconds > 0){
 
 
@@ -93,13 +85,13 @@ public class environment extends Application {
             timeline.stop();
             System.out.println("game over");
         }*/
-        timeline.setCycleCount(40);
+        timeline.setCycleCount(miniute * 60);
         buttonPlay.setOnAction(e->{
             if(remainingSeconds >0){
-            textField.setDisable(false);
-            timeline.play();
-            opponentTimeline.play();
-           }
+                textField.setDisable(false);
+                timeline.play();
+                opponentTimeline.play();
+            }
 
         });
         buttonPause.setOnAction(e->{
@@ -112,7 +104,7 @@ public class environment extends Application {
         fixedPane.getChildren().add(buttonPause);
         fixedPane.getChildren().add(buttonPlay);
         displayPane.setLayoutY(40);
-       // displayPane.setLayoutX();
+        // displayPane.setLayoutX();
         fixedPane.getChildren().add(displayPane);
         sky.prefWidthProperty().bind(fixedPane.widthProperty());
         sky.prefHeightProperty().bind(fixedPane.heightProperty());
@@ -123,15 +115,15 @@ public class environment extends Application {
         subSceneOne.setLayoutX(0);
         subSceneOne.setLayoutY(0);
 
-        subSceneOne.widthProperty().bind(stage.widthProperty());
-        fixedPane.prefWidthProperty().bind(stage.widthProperty());
-        fixedPane.prefHeightProperty().bind(stage.heightProperty());
-        subSceneOne.heightProperty().bind(stage.heightProperty().divide(3));
-       // subSceneParent.getChildren().add(subSceneOne);
+       subSceneOne.widthProperty().bind(stage.widthProperty());
+       fixedPane.prefWidthProperty().bind(stage.widthProperty());
+       fixedPane.prefHeightProperty().bind(stage.heightProperty());
+       subSceneOne.heightProperty().bind(stage.heightProperty().divide(3));
+       subSceneParent.getChildren().add(subSceneOne);
 
         Polygon grassside1 = new Polygon();
         grassside1.setFill(Color.FORESTGREEN);
-       grassside1.setStrokeWidth(0);
+        grassside1.setStrokeWidth(0);
         /*double[] pointsOne = {  0.0,0.0,
                 0.0,700.0,
                 200.0,0.0};*/
@@ -153,8 +145,8 @@ public class environment extends Application {
                         pane.getWidth() / 4 + pane.getWidth()/4/2, 0.0
                 ));
 
-       // grassside1.setStrokeWidth(0);
-       Polygon grassside2 = new Polygon();
+        // grassside1.setStrokeWidth(0);
+        Polygon grassside2 = new Polygon();
         Double[] pointstwo = { 500.0,0.0,
                 700.0,0.0,
                 700.0,700.0};
@@ -184,14 +176,14 @@ public class environment extends Application {
         road.getPoints().addAll(roadpoints);
         pane.widthProperty().addListener((observable, oldValue, newValue) ->
                 road.getPoints().setAll(
-                       newValue.doubleValue() / 4 + (newValue.doubleValue() / 4 /2), 0.0,
+                        newValue.doubleValue() / 4 + (newValue.doubleValue() / 4 /2), 0.0,
                         0.0,700.0,
                         newValue.doubleValue(), 700.0,
                         newValue.doubleValue() / 4 + (newValue.doubleValue() / 4 /2) + (newValue.doubleValue() / 4), 0.0
                 ));
-       pane.heightProperty().addListener((observable, oldValue, newValue) ->
+        pane.heightProperty().addListener((observable, oldValue, newValue) ->
                 road.getPoints().setAll(
-                       pane.getWidth() / 4 + pane.getWidth() /4/2, 0.0 ,
+                        pane.getWidth() / 4 + pane.getWidth() /4/2, 0.0 ,
                         0.0, newValue.doubleValue(),
                         pane.getWidth(), newValue.doubleValue(),
                         pane.getWidth() / 4 + (pane.getWidth() /4 /2) + pane.getWidth() / 4, 0.0
@@ -230,20 +222,20 @@ public class environment extends Application {
                 368.0,350.3};
         roadCenterTwo.getPoints().addAll(centerpointstwo);
         roadCenterTwo.setFill(Color.YELLOW);
-     pane.widthProperty().addListener((observable, oldValue, newValue) ->
-             roadCenterTwo.getPoints().setAll(
-                     newValue.doubleValue() / 4 + (newValue.doubleValue() / 4 /2) + (newValue.doubleValue() /4/2.112), pane.getHeight()/3 + pane.getHeight() /3/2.30,
-                     newValue.doubleValue() / 4 + (newValue.doubleValue() / 4 /2) + (newValue.doubleValue() /4/2.25),pane.getHeight()/3 + pane.getHeight() /3/1.15,
-                     newValue.doubleValue() / 4 + (newValue.doubleValue() / 4 /2) + (newValue.doubleValue() / 4/1.75), pane.getHeight()/3 + pane.getHeight() /3/1.15,
-                     newValue.doubleValue() / 4 + (newValue.doubleValue() / 4 /2) + (newValue.doubleValue() / 4/1.875),  pane.getHeight()/3 + pane.getHeight() /3/2.30
-             ));
-     pane.heightProperty().addListener((observable, oldValue, newValue) ->
-             roadCenterTwo.getPoints().setAll(
-                     pane.getWidth() / 4 + pane.getWidth() /4/2 + pane.getWidth() /4/2.112, newValue.doubleValue() / 3  + newValue.doubleValue()/3/2.30,
-                     pane.getWidth() / 4 + pane.getWidth() /4/2 + pane.getWidth() /4/2.25, newValue.doubleValue()/3 + newValue.doubleValue()/3/1.5,
-                     pane.getWidth() /4 + pane.getWidth()/4/2 + pane.getWidth()/4/1.75, newValue.doubleValue()/3 + newValue.doubleValue()/3/1.5,
-                     pane.getWidth() /4 + pane.getWidth()/4/2 + pane.getWidth()/4/1.875, newValue.doubleValue() / 3 + newValue.doubleValue()/3/2.3
-             ));
+        pane.widthProperty().addListener((observable, oldValue, newValue) ->
+                roadCenterTwo.getPoints().setAll(
+                        newValue.doubleValue() / 4 + (newValue.doubleValue() / 4 /2) + (newValue.doubleValue() /4/2.112), pane.getHeight()/3 + pane.getHeight() /3/2.30,
+                        newValue.doubleValue() / 4 + (newValue.doubleValue() / 4 /2) + (newValue.doubleValue() /4/2.25),pane.getHeight()/3 + pane.getHeight() /3/1.15,
+                        newValue.doubleValue() / 4 + (newValue.doubleValue() / 4 /2) + (newValue.doubleValue() / 4/1.75), pane.getHeight()/3 + pane.getHeight() /3/1.15,
+                        newValue.doubleValue() / 4 + (newValue.doubleValue() / 4 /2) + (newValue.doubleValue() / 4/1.875),  pane.getHeight()/3 + pane.getHeight() /3/2.30
+                ));
+        pane.heightProperty().addListener((observable, oldValue, newValue) ->
+                roadCenterTwo.getPoints().setAll(
+                        pane.getWidth() / 4 + pane.getWidth() /4/2 + pane.getWidth() /4/2.112, newValue.doubleValue() / 3  + newValue.doubleValue()/3/2.30,
+                        pane.getWidth() / 4 + pane.getWidth() /4/2 + pane.getWidth() /4/2.25, newValue.doubleValue()/3 + newValue.doubleValue()/3/1.5,
+                        pane.getWidth() /4 + pane.getWidth()/4/2 + pane.getWidth()/4/1.75, newValue.doubleValue()/3 + newValue.doubleValue()/3/1.5,
+                        pane.getWidth() /4 + pane.getWidth()/4/2 + pane.getWidth()/4/1.875, newValue.doubleValue() / 3 + newValue.doubleValue()/3/2.3
+                ));
 
         Polygon roadCenterThree = new Polygon();
 
@@ -253,37 +245,37 @@ public class environment extends Application {
                 370.0,550.3};
         roadCenterThree.getPoints().addAll(centerPointsthree);
         roadCenterThree.setFill(Color.YELLOW);
-     pane.widthProperty().addListener((observable, oldValue, newValue) ->{
-             roadCenterThree.getPoints().setAll(
-                     newValue.doubleValue() / 4 + (newValue.doubleValue() / 4 /2) + (newValue.doubleValue() /4/2.112), pane.getHeight() - 125,
-                     newValue.doubleValue() / 4 + (newValue.doubleValue() / 4 /2) + (newValue.doubleValue() /4/2.25),pane.getHeight() - 50,
-                     newValue.doubleValue() / 4 + (newValue.doubleValue() / 4 /2) + (newValue.doubleValue() / 4/1.75), pane.getHeight() - 50,
-                     newValue.doubleValue() / 4 + (newValue.doubleValue() / 4 /2) + (newValue.doubleValue() / 4/1.875),  pane.getHeight() - 125
-             ); });
-     pane.heightProperty().addListener((observable, oldValue, newValue) ->
-             roadCenterThree.getPoints().setAll(
-                     pane.getWidth() / 4 + pane.getWidth() /4/2 + pane.getWidth() /4/2.112, newValue.doubleValue() - 125,
-                     pane.getWidth() / 4 + pane.getWidth() /4/2 + pane.getWidth() /4/2.25, newValue.doubleValue() - 50,
-                     pane.getWidth() /4 + pane.getWidth()/4/2 + pane.getWidth()/4/1.75, newValue.doubleValue() - 50,
-                     pane.getWidth() /4 + pane.getWidth()/4/2 + pane.getWidth()/4/1.875, newValue.doubleValue() -125
-             ));
+        pane.widthProperty().addListener((observable, oldValue, newValue) ->{
+            roadCenterThree.getPoints().setAll(
+                    newValue.doubleValue() / 4 + (newValue.doubleValue() / 4 /2) + (newValue.doubleValue() /4/2.112), pane.getHeight() - 125,
+                    newValue.doubleValue() / 4 + (newValue.doubleValue() / 4 /2) + (newValue.doubleValue() /4/2.25),pane.getHeight() - 50,
+                    newValue.doubleValue() / 4 + (newValue.doubleValue() / 4 /2) + (newValue.doubleValue() / 4/1.75), pane.getHeight() - 50,
+                    newValue.doubleValue() / 4 + (newValue.doubleValue() / 4 /2) + (newValue.doubleValue() / 4/1.875),  pane.getHeight() - 125
+            ); });
+        pane.heightProperty().addListener((observable, oldValue, newValue) ->
+                roadCenterThree.getPoints().setAll(
+                        pane.getWidth() / 4 + pane.getWidth() /4/2 + pane.getWidth() /4/2.112, newValue.doubleValue() - 125,
+                        pane.getWidth() / 4 + pane.getWidth() /4/2 + pane.getWidth() /4/2.25, newValue.doubleValue() - 50,
+                        pane.getWidth() /4 + pane.getWidth()/4/2 + pane.getWidth()/4/1.75, newValue.doubleValue() - 50,
+                        pane.getWidth() /4 + pane.getWidth()/4/2 + pane.getWidth()/4/1.875, newValue.doubleValue() -125
+                ));
 
         Image carimage = new Image("C:\\Users\\Siyan\\Desktop\\back-of-car-3.png");
-         car = new ImageView(carimage);
+        car = new ImageView(carimage);
         car.setLayoutX(150);
         car.setLayoutY(470);
         car.setFitHeight(149);
         car.setFitWidth(200);
         car.layoutXProperty().bind(pane.widthProperty().divide(5));
         pane.widthProperty().addListener((observable, oldValue, newValue)-> {
-                    if (newValue.doubleValue() > oldValue.doubleValue()){
-                        car.layoutXProperty().bind(pane.widthProperty().divide(4));
-                }
-                    else{
-                        car.layoutXProperty().bind(pane.widthProperty().divide(5));
-                    }}
+            if (newValue.doubleValue() > oldValue.doubleValue()){
+                car.layoutXProperty().bind(pane.widthProperty().divide(4));
+            }
+            else{
+                car.layoutXProperty().bind(pane.widthProperty().divide(5));
+            }}
 
-                );
+        );
 
 
         Image carImageTwo = new Image("C:\\Users\\Siyan\\Desktop\\Back-of-car-new.png");
@@ -318,11 +310,11 @@ public class environment extends Application {
         leftLine.setFill(Color.BLACK);
 
 
-            leftSideTrees[0] = new ImageView(treeimage);
-            leftSideTrees[0].setFitHeight(70);
-            leftSideTrees[0].setFitWidth(50);
-            leftSideTrees[0].layoutXProperty().bind(leftLine.endXProperty().subtract(leftSideTrees[0].getFitWidth()*1.4));
-            leftSideTrees[0].layoutYProperty().bind(leftLine.endYProperty().add(leftSideTrees[0].getFitHeight()/1.7));
+        leftSideTrees[0] = new ImageView(treeimage);
+        leftSideTrees[0].setFitHeight(70);
+        leftSideTrees[0].setFitWidth(50);
+        leftSideTrees[0].layoutXProperty().bind(leftLine.endXProperty().subtract(leftSideTrees[0].getFitWidth()*1.4));
+        leftSideTrees[0].layoutYProperty().bind(leftLine.endYProperty().add(leftSideTrees[0].getFitHeight()/1.7));
 
         leftSideTrees[1] = new ImageView(treeimage);
         leftSideTrees[1].setFitHeight(110);
@@ -371,12 +363,12 @@ public class environment extends Application {
 
 
         camera = new PerspectiveCamera(true);
-		camera.setLayoutX(pane.getWidth()/2);
-		camera.setTranslateY(340);
+        camera.setLayoutX(pane.getWidth()/2);
+        camera.setTranslateY(340);
 
         camera.setTranslateZ(-1300);
-		camera.setFarClip(18000);
-		camera.setNearClip(0.1);
+        camera.setFarClip(18000);
+        camera.setNearClip(0.1);
 
 
         pane.getChildren().add(grassside1);
@@ -385,23 +377,23 @@ public class environment extends Application {
 
         pane.getChildren().add(roadCenter);
         pane.getChildren().add(roadCenterTwo);
-       // pane.getChildren().add(roadCenterThree);
+        // pane.getChildren().add(roadCenterThree);
         pane.getChildren().add(car);
         pane.getChildren().add(carTwo);
-       // pane.getChildren().add(leftSideTrees[0]);
+        // pane.getChildren().add(leftSideTrees[0]);
         pane.getChildren().add(leftSideTrees[1]);
-       // pane.getChildren().add(leftSideTrees[2]);
-       // pane.getChildren().add(rightSideTrees[0]);
+        // pane.getChildren().add(leftSideTrees[2]);
+        // pane.getChildren().add(rightSideTrees[0]);
         pane.getChildren().add(rightSideTrees[1]);
-       // pane.getChildren().add(rightSideTrees[2]);
+        // pane.getChildren().add(rightSideTrees[2]);
         //pane.getChildren().add(leftSideTrees[2]);
         pane.getChildren().add(leftLine);
         pane.getChildren().add(rightLine);
         pane.setBackground(new Background(new BackgroundFill(Color.ROYALBLUE,null,null)));
-       SubScene subSceneTwo = new SubScene(pane,700,467,true,SceneAntialiasing.BALANCED);
+        SubScene subSceneTwo = new SubScene(pane,700,467,true,SceneAntialiasing.BALANCED);
         Group rfS = new Group();
         rfS.getChildren().add(canvas);
-      //  SubScene subSceneTwo = new SubScene(rfS,700,467);
+        //  SubScene subSceneTwo = new SubScene(rfS,700,467);
 
        /* pane.setBackground(new Background(new BackgroundFill(Color.YELLOW,null,null)));
         pane.prefHeightProperty().bind(subSceneTwo.heightProperty());
@@ -417,18 +409,11 @@ public class environment extends Application {
 
         //root.getChildren().add(subSceneParent);
 
-        Scene scene = new Scene(subSceneParent,700,700);
-       // pane.translateXProperty().bind(scene.xProperty());
-       // pane.translateYProperty().bind(scene.yProperty());
+        scene = new Scene(subSceneParent,700,700);
+        // pane.translateXProperty().bind(scene.xProperty());
+        // pane.translateYProperty().bind(scene.yProperty());
 
-
-        stage.setScene(scene);
-
-        stage.show();
+return scene;
 
     }
-    public static void main(String[] args) {
-        Application.launch(args);
-    }
-
 }

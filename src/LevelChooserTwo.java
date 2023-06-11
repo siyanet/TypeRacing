@@ -1,4 +1,3 @@
-import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -6,15 +5,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
-import javafx.stage.Stage;
 
-public class LevelChooser extends Application {
+public class LevelChooserTwo {
     static Scene scene;
-    @Override
-    public void start(Stage stage) throws Exception {
+    public static Scene getLevelChooserTwoScene(){
         Pane parent = new Pane();
         Image backgroundImage = new Image("C:\\Users\\Siyan\\Downloads\\1798247.jpg");
         parent.setBackground(new Background(new BackgroundImage(backgroundImage,null,null,null,null)));
@@ -63,7 +59,7 @@ public class LevelChooser extends Application {
         subParent.getChildren().add(subSubParentOne);
         subParent.getChildren().add(subSubParentTwo);
         subParent.getChildren().add(subSubParentThree);
-    //  subParent.setBackground(new Background(new BackgroundFill(Color.FORESTGREEN,null,null)));
+        //  subParent.setBackground(new Background(new BackgroundFill(Color.FORESTGREEN,null,null)));
         title.setLayoutX(430);
         title.setLayoutY(160);
         parent.getChildren().add(title);
@@ -71,7 +67,7 @@ public class LevelChooser extends Application {
 
 
 
-      //  beginner.setPrefSize();
+        //  beginner.setPrefSize();
 
 
 
@@ -79,29 +75,21 @@ public class LevelChooser extends Application {
 
         subParent.prefWidthProperty().bind(scene.widthProperty().divide(1.3));
         subParent.prefHeightProperty().bind(scene.heightProperty().divide(2.7));
-       subParent.layoutXProperty().bind(scene.widthProperty().divide(2).subtract(scene.widthProperty().divide(2.6)));
-       subParent.layoutYProperty().bind(scene.heightProperty().divide(2).subtract(subParent.getPrefHeight()/2));
-       subSubParentOne.prefWidthProperty().bind(subParent.prefWidthProperty().divide(3));
-       subSubParentTwo.prefWidthProperty().bind(subParent.prefWidthProperty().divide(3));
-       subSubParentThree.prefWidthProperty().bind(subParent.prefWidthProperty().divide(3));
-       subSubParentOne.setOnMouseClicked(e-> ChooseLevel.chooseLevel("Beginner"));
-       subSubParentTwo.setOnMouseClicked(e-> ChooseLevel.chooseLevel("Intermediate"));
-       subSubParentThree.setOnMouseClicked(e->ChooseLevel.chooseLevel("Advanced"));
+        subParent.layoutXProperty().bind(scene.widthProperty().divide(2).subtract(scene.widthProperty().divide(2.6)));
+        subParent.layoutYProperty().bind(scene.heightProperty().divide(2).subtract(subParent.getPrefHeight()/2));
+        subSubParentOne.prefWidthProperty().bind(subParent.prefWidthProperty().divide(3));
+        subSubParentTwo.prefWidthProperty().bind(subParent.prefWidthProperty().divide(3));
+        subSubParentThree.prefWidthProperty().bind(subParent.prefWidthProperty().divide(3));
+        subSubParentOne.setOnMouseClicked(e-> ChooseLevel.chooseLevel("Beginner"));
+        subSubParentTwo.setOnMouseClicked(e-> ChooseLevel.chooseLevel("Intermediate"));
+        subSubParentThree.setOnMouseClicked(e->ChooseLevel.chooseLevel("Advanced"));
 
        /* subParent.widthProperty().addListener((observable, oldValue,newValue) ->{
             beginner.setFont(Font.font("Bodoni Mt Black", FontPosture.ITALIC,45));
             intermidate.setFont(Font.font("Bodoni Mt Black", FontPosture.ITALIC,45));
             advanced.setFont(Font.font("Bodoni Mt Black", FontPosture.ITALIC,45));}
         );*/
-        stage.setScene(scene);
-        stage.show();
-
-    }
-    public static Scene getLevelChooserScene(){
         return scene;
-    }
-    public static void main(String[] args){
 
-        Application.launch(args);
     }
 }

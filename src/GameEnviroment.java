@@ -26,9 +26,12 @@ static     double[]grassOnePointsX = {0.0,0.0,300.0};
   static  double[] grassTwoPointsY = {0.0,0.0,700.0};
   static  double[] roadPointsX = {300.0,0.0,700.0,400.0};
    static double[] roadPointsY = {0.0,700.0,700.0,0.0};
+   static Image carimage = new Image("C:\\Users\\Siyan\\Desktop\\back-of-car-3.png");
   static Canvas canvas;
   static Pane cameraPane;
   static SubScene subSceneTwo;
+    static double cameraTranslateY = 280;
+    static double cameraTranslateZ = -900;
    static GraphicsContext gc;
     public static void draw(GraphicsContext gc, double[]grassOnePointsX,double[]grassOnePointsY,double[]grassTwoPointsX,double[]
                      grassTwoPointsY,double[]roadPointsX,double[]roadPointsY){
@@ -42,7 +45,7 @@ static     double[]grassOnePointsX = {0.0,0.0,300.0};
 
     @Override
     public void start(Stage stage) throws Exception {
-        canvas = new Canvas(700,467);
+        canvas = new Canvas(700,700);
         gc = canvas.getGraphicsContext2D();
         Group root = new Group();
         Group subSceneParent = new Group();
@@ -65,28 +68,32 @@ static     double[]grassOnePointsX = {0.0,0.0,300.0};
 
         subSceneOne.widthProperty().bind(stage.widthProperty());
         fixedPane.prefWidthProperty().bind(stage.widthProperty());
-        fixedPane.prefHeightProperty().bind(stage.heightProperty());
+        fixedPane.prefHeightProperty().bind(stage.heightProperty().divide(3));
         subSceneOne.heightProperty().bind(stage.heightProperty().divide(3));
 
         cameraPane= new Pane();
-        cameraPane.setBackground(new Background(new BackgroundFill(Color.ROYALBLUE,null,null)));
-        draw(gc,grassOnePointsX,grassOnePointsY,grassTwoPointsX,grassTwoPointsY,roadPointsX,roadPointsY);
-        cameraPane.setPrefWidth(700);
+        //cameraPane.setBackground(new Background(new BackgroundFill(Color.ROYALBLUE,null,null)));
+       draw(gc,grassOnePointsX,grassOnePointsY,grassTwoPointsX,grassTwoPointsY,roadPointsX,roadPointsY);
+        gc.drawImage(carimage,200,100,150,150);
+
         cameraPane.getChildren().add(canvas);
-        subSceneTwo = new SubScene(cameraPane,700,700);
-        subSceneTwo.setFill(Color.YELLOW);
+
+        cameraPane.setBackground(new Background(new BackgroundFill(Color.VIOLET,null,null)));
+        subSceneTwo = new SubScene(cameraPane,700,700,true,SceneAntialiasing.BALANCED);
+        //subSceneTwo.setFill(Color.YELLOW);
 
 
         subSceneTwo.setLayoutX(0);
-        subSceneTwo.setLayoutY(273);
-        cameraPane.setLayoutY(0);
-        subSceneTwo.setHeight(700);
+        subSceneTwo.setLayoutY(0);
+       //cameraPane.setLayoutY(0);
+        //subSceneTwo.setHeight(700);
 
-      //  subSceneTwo.widthProperty().bind(stage.widthProperty());
-       // subSceneTwo.heightProperty().bind(stage.heightProperty().divide(3).multiply(2));
+       subSceneTwo.widthProperty().bind(stage.widthProperty());
+       subSceneTwo.heightProperty().bind(stage.heightProperty());
+      //  subSceneTwo.heightProperty().bind(stage.heightProperty().divide(3).multiply(2));
         //subSceneTwo.layoutYProperty().bind(stage.heightProperty().divide(3));
-      //  cameraPane.prefWidthProperty().bind(subSceneTwo.widthProperty());
-     //   cameraPane.prefHeightProperty().bind(subSceneTwo.heightProperty());
+        cameraPane.prefWidthProperty().bind(subSceneTwo.widthProperty());
+        cameraPane.prefHeightProperty().bind(subSceneTwo.heightProperty());
         //cameraPane.layoutYProperty().bind(stage.heightProperty().divide(3));
 
 
@@ -95,32 +102,39 @@ static     double[]grassOnePointsX = {0.0,0.0,300.0};
                gc.setFill(Color.FORESTGREEN);
                gc.fillPolygon(grassOnePointsX,grassOnePointsY,grassOnePointsX.length);}
        );*/
-        Image carimage = new Image("C:\\Users\\Siyan\\Desktop\\back-of-car-3.png");
+
         ImageView car = new ImageView(carimage);
-        car.setLayoutX(300);
-        car.setLayoutY(400);
-        car.setFitHeight(149);
-        car.setFitWidth(200);
+       // car.setLayoutX(300);
+       // car.setLayoutY(400);
+       // car.setFitHeight(149);
+       // car.setFitWidth(200);
+
 
         camera = new PerspectiveCamera(true);
-        camera.setTranslateX(360);
-        camera.setTranslateY(280);
+       // camera.setTranslateX(350);
+       // camera.setTranslateY(280);
 
-        camera.setTranslateZ(-900);
+        //camera.setTranslateZ(-1000);
+        camera.setTranslateX(350);
+        camera.setTranslateY(340);
+
+        camera.setTranslateZ(-1300);
         camera.setFarClip(18000);
         camera.setNearClip(0.1);
-        subSceneTwo.setCamera(camera);
+       subSceneTwo.setCamera(camera);
 
 
 
-
-        subSceneParent.getChildren().add(subSceneOne);
         subSceneParent.getChildren().add(subSceneTwo);
+        subSceneParent.getChildren().add(subSceneOne);
 
 
-        root.getChildren().add(subSceneParent);
 
-        Scene scene = new Scene(root,700,700);
+
+
+      //  root.getChildren().add(subSceneParent);
+
+        Scene scene = new Scene(subSceneParent,700,700);
         stage.setScene(scene);
 
         stage.show();
