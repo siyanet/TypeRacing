@@ -27,7 +27,9 @@ import javafx.util.Duration;
 
 
 
-public class environment extends Application {
+//public class environment extends Application {
+public class environment {
+
     static Polyline road;
     static Polygon roadCenterTwo;
     static Polygon roadCenter;
@@ -42,16 +44,20 @@ public class environment extends Application {
     static Pane pane;
     static double cameraTranslateY = 350;
     static double cameraTranslateZ = -1300;
-    static double remainingSeconds = 40;
+    static double remainingSeconds = 0;
     static Label timeLabel;
     static Timeline timeline;
     boolean play;
-    int opponentCarY = 0;
-    int opponentCarX = 0;
-    Timeline opponentTimeline;
+    static Scene scene;
+   static  int opponentCarY = 0;
+   static int opponentCarX = 0;
+   static Timeline opponentTimeline;
+   static int levelIndicator;
 
-    @Override
-    public void start(Stage stage) throws Exception {
+   // @Override
+   // public void start(Stage stage) throws Exception {
+    public static Scene getEnvironmentScene(int minute,Stage stage){
+        remainingSeconds = 60 *minute;
         pane = new Pane();
         Canvas canvas = new Canvas(700,700);
         GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -77,13 +83,15 @@ public class environment extends Application {
                 environment.timeLabel.setText("Remaining seconds: " + environment.remainingSeconds);}}));
         timeline.setOnFinished(e->{
             textField.setDisable(true);
+            CalculateReport.calculate();
+            ConnectToScene.connectReport();
         });
         opponentTimeline = new Timeline(new KeyFrame(Duration.seconds(0.5),event->{
             opponentCarY-=5;
             opponentCarX-=1;
             OpponetMove.move(opponentCarX,opponentCarY);
         }));
-        opponentTimeline.setCycleCount(80);
+        opponentTimeline.setCycleCount(minute * 120);
        /* if(remainingSeconds > 0){
 
 
@@ -93,7 +101,7 @@ public class environment extends Application {
             timeline.stop();
             System.out.println("game over");
         }*/
-        timeline.setCycleCount(40);
+        timeline.setCycleCount(minute * 60);
         buttonPlay.setOnAction(e->{
             if(remainingSeconds >0){
             textField.setDisable(false);
@@ -403,7 +411,7 @@ public class environment extends Application {
         rfS.getChildren().add(canvas);
       //  SubScene subSceneTwo = new SubScene(rfS,700,467);
 
-       /* pane.setBackground(new Background(new BackgroundFill(Color.YELLOW,null,null)));
+      /* pane.setBackground(new Background(new BackgroundFill(Color.YELLOW,null,null)));
         pane.prefHeightProperty().bind(subSceneTwo.heightProperty());
         pane.prefWidthProperty().bind(subSceneTwo.widthProperty());*/
        subSceneTwo.widthProperty().bind(stage.widthProperty());
@@ -417,18 +425,19 @@ public class environment extends Application {
 
         //root.getChildren().add(subSceneParent);
 
-        Scene scene = new Scene(subSceneParent,700,700);
+        scene = new Scene(subSceneParent,700,700);
        // pane.translateXProperty().bind(scene.xProperty());
        // pane.translateYProperty().bind(scene.yProperty());
 
 
-        stage.setScene(scene);
+       /* stage.setScene(scene);
 
-        stage.show();
+        stage.show();*/
+        return scene;
 
     }
-    public static void main(String[] args) {
+  /*  public static void main(String[] args) {
         Application.launch(args);
-    }
+    }*/
 
 }

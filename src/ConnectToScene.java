@@ -1,10 +1,10 @@
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class ConnectToChooser {
-    public static void choose(){
+public class ConnectToScene {
+    public static void connectReport(){
         Stage stage = SignUp.getStage();
-        Scene scene = LevelChooser.getLevelChooserScene();
+        Scene scene = Report.getReportScene();
         stage.setScene(scene);
     }
 }

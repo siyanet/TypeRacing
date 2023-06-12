@@ -11,10 +11,13 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.stage.Stage;
 
-public class LevelChooser extends Application {
+//public class LevelChooser extends Application {
+public class LevelChooser {
+
     static Scene scene;
-    @Override
-    public void start(Stage stage) throws Exception {
+   // @Override
+   // public void start(Stage stage) throws Exception {
+    public static Scene getLevelChooserScene(){
         Pane parent = new Pane();
         Image backgroundImage = new Image("C:\\Users\\Siyan\\Downloads\\1798247.jpg");
         parent.setBackground(new Background(new BackgroundImage(backgroundImage,null,null,null,null)));
@@ -93,15 +96,16 @@ public class LevelChooser extends Application {
             intermidate.setFont(Font.font("Bodoni Mt Black", FontPosture.ITALIC,45));
             advanced.setFont(Font.font("Bodoni Mt Black", FontPosture.ITALIC,45));}
         );*/
-        stage.setScene(scene);
-        stage.show();
+        //stage.setScene(scene);
+       // stage.show();
+        return scene;
 
     }
-    public static Scene getLevelChooserScene(){
+   /* public static Scene getLevelChooserScene(){
         return scene;
     }
     public static void main(String[] args){
 
         Application.launch(args);
-    }
+    }*/
 }

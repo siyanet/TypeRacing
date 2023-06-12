@@ -6,11 +6,22 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class Report extends Application {
-    @Override
-    public void start(Stage stage) throws Exception {
+//public class Report extends Application {
+public class Report{
+    static int total;
+    static int speed;
+    static int accuracy;
+
+    static Scene scene;
+   // @Override
+   // public void start(Stage stage) throws Exception {
+    public static Scene getReportScene(){
+        speed = TypeEventHandler.correctWord / 60;
+        total = TypeEventHandler.correctWord + TypeEventHandler.wrongWord;
+        accuracy = (total - TypeEventHandler.wrongWord) / total *100;
         VBox pane = new VBox(30);
         VBox paneOverAll = new VBox();
         VBox paneSpeed = new VBox();
@@ -29,10 +40,16 @@ public class Report extends Application {
 
         Slider sliderSpeed = new Slider();
         sliderSpeed.setMin(0);
-        sliderSpeed.setMax(100);
-        sliderSpeed.setValue(TypeEventHandler.correctWord/40);
-        Label rate = new Label("good");
-        rate.textProperty().bind(sliderSpeed.valueProperty().asString("goof"+"%.2f"));
+        sliderSpeed.setMax(CalculateReport.expectedSpeed);
+        sliderSpeed.setValue(speed);
+        Label rate = new Label();
+        if(speed >= CalculateReport.expectedSpeed){
+            rate.setTextFill(Color.GREEN);
+        }
+        else if(speed < CalculateReport.expectedSpeed){
+            rate.setTextFill(Color.RED);
+        }
+        rate.textProperty().bind(sliderSpeed.valueProperty().asString("Speed"+"%.2f"+ "CPM"));
 
         sliderSpeed.getStyleClass().add("slider-speed");
         sliderSpeed.setDisable(true);
@@ -40,10 +57,15 @@ public class Report extends Application {
 
         Slider sliderAccuracy = new Slider();
         sliderAccuracy.setMin(0);
-        sliderAccuracy.setMax(100);
-        sliderAccuracy.setValue(TypeEventHandler.correctWord/40);
-        Label rateAccuracy = new Label("good");
-        rateAccuracy.textProperty().bind(sliderAccuracy.valueProperty().asString("goof"+"%.2f"));
+        sliderAccuracy.setMax(CalculateReport.expectedAccuracy);
+        sliderAccuracy.setValue(accuracy);
+        Label rateAccuracy = new Label();
+        if(accuracy >= CalculateReport.expectedAccuracy){
+       rateAccuracy.setTextFill(Color.GREEN);}
+        if(accuracy < CalculateReport.expectedAccuracy){
+            rateAccuracy.setTextFill(Color.RED);
+        }
+        rateAccuracy.textProperty().bind(sliderAccuracy.valueProperty().asString("Accuracy"+"%.2f"));
 
         sliderAccuracy.getStyleClass().add("slider-speed");
         sliderAccuracy.setDisable(true);
@@ -66,12 +88,13 @@ public class Report extends Application {
         pane.getChildren().add(paneAccuracy);
         pane.getChildren().add(hBox);
 
-        Scene scene = new Scene(pane,700,700);
+        scene = new Scene(pane,700,700);
         scene.getStylesheets().add("Styles.css");
-        stage.setScene(scene);
-        stage.show();
+        return scene;
+       // stage.setScene(scene);
+       // stage.show();
     }
-    public static void main(String[]args){
+  /*  public static void main(String[]args){
         Application.launch();
-    }
+    }*/
 }
