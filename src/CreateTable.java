@@ -1,7 +1,5 @@
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
+
 public class CreateTable {
     public static void main(String args[]){
        // createTableWord();
@@ -62,5 +60,31 @@ public class CreateTable {
 
             System.out.println("words are stored at the database");
         }
+        public static void createPerformanceTable(){
+        try{
+            Connection conne = ConnectDatabase.getConnection();
+            DatabaseMetaData dbMetaData = conne.getMetaData();
+            ResultSet tables = dbMetaData.getTables(null, null, environment.userName, null);
+            if(tables.next()){
+                System.out.println("it has been created");
+
+            }
+            else{
+                String tableName = environment.userName;
+                String query = "CREATE TABLE " + tableName + " (id INT AUTO_INCREMENT PRIMARY KEY, Date VARCHAR(20) NOT NULL, Speed INT NOT NULL, Accuracy INT NOT NULL)";
+                PreparedStatement pStatement = conne.prepareStatement(query);
+                pStatement.execute();
+                System.out.println("created");
+
+            }
+
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+       }
+
 
 }

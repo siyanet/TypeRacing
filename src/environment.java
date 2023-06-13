@@ -5,6 +5,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 
+import javafx.geometry.Insets;
 import javafx.scene.*;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -13,14 +14,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Polyline;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -53,42 +55,71 @@ public class environment {
    static int opponentCarX = 0;
    static Timeline opponentTimeline;
    static int levelIndicator;
+   static Pane fixedPane;
+   static String userName;
 
-   // @Override
-   // public void start(Stage stage) throws Exception {
+    //@Override
+  // public void start(Stage stage) throws Exception {
     public static Scene getEnvironmentScene(int minute,Stage stage){
-        remainingSeconds = 60 *minute;
+        remainingSeconds = 60 * minute;
         pane = new Pane();
         Canvas canvas = new Canvas(700,700);
         GraphicsContext gc = canvas.getGraphicsContext2D();
        Group root = new Group();
        Group subSceneParent = new Group();
-       Pane fixedPane = new Pane();
+       fixedPane = new Pane();
 
        // pane.setMinWidth(500);
          sky = enviromentSky.getSky();
         Pane displayPane = display.getPane();
         timeLabel = new Label();
         timeLabel.setText("Remaining Seconds: " + remainingSeconds + "S");
+        timeLabel.setFont(Font.font("TIMES NEW ROMAN", FontWeight.BOLD, FontPosture.ITALIC,25));
+        timeLabel.setTextFill(Color.DARKGOLDENROD);
+        timeLabel.setStyle("-fx-padding: 10px");
+        timeLabel.setLayoutX(timeLabel.getLayoutX() + 10);
+        timeLabel.setLayoutY(timeLabel.getLayoutY() + 20);
+        timeLabel.setBorder(new Border(new BorderStroke(
+                Color.TOMATO,                       // Border color
+                BorderStrokeStyle.SOLID,           // Border style
+                CornerRadii.EMPTY,                 // Border corner radii
+                new BorderWidths(2),               // Border widths
+                Insets.EMPTY                       // Border insets
+        )));
+        timeLabel.setBackground(new Background(new BackgroundFill(Color.BISQUE,null,null)));
         TextField textField = display.textField;
         Button buttonPlay = new Button("Play");
         Button buttonPause = new Button("pause");
-        buttonPause.setLayoutX(550);
-        buttonPlay.setLayoutX(600);
+        buttonPause.layoutXProperty().bind(fixedPane.widthProperty().subtract(200));
+        buttonPause.setLayoutY(buttonPause.getLayoutY() + 10);
+        buttonPause.setStyle("-fx-background-radius: 4px; -fx-padding: 2px 4px; -fx-background-color: green; -fx-text-fill: white;");
+        buttonPause.setPrefWidth(50);
+        buttonPause.setPrefHeight(50);
+        buttonPlay.layoutXProperty().bind(fixedPane.widthProperty().subtract(125));
+        buttonPlay.setLayoutY(buttonPlay.getLayoutY() + 10);
+        buttonPlay.setStyle("-fx-background-radius: 4px; -fx-padding: 2px 4px; -fx-background-color: green; -fx-text-fill: white;");
+        buttonPlay.setPrefWidth(50);
+        buttonPlay.setPrefHeight(50);
         textField.setOnKeyTyped(new TypeEventHandler());
         textField.setDisable(true);
         timeline = new Timeline(new KeyFrame(Duration.seconds(1), event->{
             remainingSeconds--;
             if(remainingSeconds >=0){
                 environment.timeLabel.setText("Remaining seconds: " + environment.remainingSeconds);}}));
-        timeline.setOnFinished(e->{
+       /* timeline.setOnFinished(e->{
             textField.setDisable(true);
             CalculateReport.calculate();
+            subSceneParent.setOpacity(0.4);
             ConnectToScene.connectReport();
-        });
+        });*/
         opponentTimeline = new Timeline(new KeyFrame(Duration.seconds(0.5),event->{
+            if(opponentCarY < -430){
+                opponentCarY = 0;
+                opponentCarX = 0;
+            }
+            else{
             opponentCarY-=5;
-            opponentCarX-=1;
+            opponentCarX-=1;}
             OpponetMove.move(opponentCarX,opponentCarY);
         }));
         opponentTimeline.setCycleCount(minute * 120);
@@ -119,7 +150,7 @@ public class environment {
         fixedPane.getChildren().add(timeLabel);
         fixedPane.getChildren().add(buttonPause);
         fixedPane.getChildren().add(buttonPlay);
-        displayPane.setLayoutY(40);
+        displayPane.setLayoutY(80);
        // displayPane.setLayoutX();
         fixedPane.getChildren().add(displayPane);
         sky.prefWidthProperty().bind(fixedPane.widthProperty());
@@ -368,13 +399,13 @@ public class environment {
         rightSideTrees[1] = new ImageView(treeimage);
         rightSideTrees[1].setFitHeight(110);
         rightSideTrees[1].setFitWidth(85);
-        rightSideTrees[1].layoutXProperty().bind(rightLine.endXProperty().add(rightLine.endXProperty().divide(6)));
+        rightSideTrees[1].layoutXProperty().bind(rightLine.endXProperty().add(rightLine.endXProperty().divide(4.5)));
         rightSideTrees[1].layoutYProperty().bind(rightLine.startYProperty().divide(2).subtract(rightSideTrees[1].getFitHeight()*1.4));
 
         rightSideTrees[2] = new ImageView(treeimage);
         rightSideTrees[2].setFitHeight(275);
         rightSideTrees[2].setFitWidth(250);
-        rightSideTrees[2].layoutXProperty().bind(rightLine.startXProperty().subtract(rightSideTrees[2].getFitWidth()/1.55));
+        rightSideTrees[2].layoutXProperty().bind(rightLine.startXProperty().subtract(rightSideTrees[2].getFitWidth()/1.60));
         rightSideTrees[2].layoutYProperty().bind(rightLine.startYProperty().subtract( rightSideTrees[2].getFitHeight()*1.4));
 
 
@@ -424,19 +455,42 @@ public class environment {
         subSceneParent.getChildren().add(subSceneOne);
 
         //root.getChildren().add(subSceneParent);
+        timeline.setOnFinished(e->{
+            textField.setDisable(true);
+            CalculateReport.calculate();
+            CreateTable.createPerformanceTable();
+            StorePerformance.storePerformance();
+            subSceneOne.setOpacity(0.4);
+            subSceneTwo.setOpacity(0.3);
+            Pane pane2 = new Pane();
+            pane2.prefWidthProperty().bind(stage.widthProperty());
+            pane2.prefHeightProperty().bind(stage.heightProperty());
+            Pane timesPane = TimesUp.getTimesUpPane();
+
+
+           timesPane.layoutXProperty().bind(stage.widthProperty().divide(2).subtract(timesPane.widthProperty().divide(2)));
+           timesPane.layoutYProperty().bind(stage.heightProperty().divide(2).subtract(timesPane.widthProperty().divide(2)));
+            pane2.getChildren().add(timesPane);
+            subSceneParent.getChildren().add(pane2);
+
+         //   timesPane.layoutXProperty().bind(subSceneParent.width);
+
+          //  ConnectToScene.connectReport();
+        });
+        subSceneParent.getChildren().add(MenuPane.getMenuPane());
 
         scene = new Scene(subSceneParent,700,700);
        // pane.translateXProperty().bind(scene.xProperty());
        // pane.translateYProperty().bind(scene.yProperty());
 
 
-       /* stage.setScene(scene);
+      // stage.setScene(scene);
 
-        stage.show();*/
+       // stage.show();
         return scene;
 
     }
-  /*  public static void main(String[] args) {
+/*   public static void main(String[] args) {
         Application.launch(args);
     }*/
 

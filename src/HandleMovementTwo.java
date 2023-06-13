@@ -5,13 +5,13 @@ public class HandleMovementTwo {
    static double cameraZ = 0;
    static double carY = 0;
    static double carX = 0;
-   static double accelartionX0 = -3;
-   static double accelartionX1 = -3;
-   static double accelartionX = -3;
-   static double accelartionRX = 2;
-   static double acclerationY = 3;
-   static double accelerationLY = 3;
-   static double[] accelerationX = {-3,-3,-3};
+  // static double accelartionX0 = -3;
+  // static double accelartionX1 = -3;
+   static double accelartionX = 0;
+   static double accelartionRX = 0;
+   static double acclerationY = 0;
+   static double accelerationLY = 0;
+ ////  static double[] accelerationX = {-3,-3,-3};
    static double[] accelerationY = {3,3,3};
 
    static double accelerationRoad = 5;
@@ -24,10 +24,8 @@ public class HandleMovementTwo {
 
         cameraY-=3;
         cameraZ+=3;
-        carY -=5;
-        carX +=1;
-       accelartionX-=3;
-        accelartionRX+=2;
+       accelartionX-=5.4 ;  //3;
+        accelartionRX+=5.3;
         accelerationRoad+=3;
         accelerationRoad2+=3;
 
@@ -40,13 +38,11 @@ public class HandleMovementTwo {
 
         Translate translate = new Translate();
 
-        if(cameraZ >= 230){
+        if(cameraZ >= 230 && carY < -430){
 
 
             cameraY =0;
             cameraZ =0;
-            carY = 0;
-            carX = 0;
             translate.setY(0);
             translate.setZ(0);
 
@@ -55,6 +51,14 @@ public class HandleMovementTwo {
             translate.setY(cameraY);
             translate.setZ(cameraZ);
 
+        }
+        if(carY < -430){
+            carX = 0;
+            carY = 0;
+        }
+        else {
+            carX +=1;
+            carY-=5;
         }
         environment.camera.getTransforms().clear();
         environment.camera.getTransforms().add(translate);
@@ -86,7 +90,7 @@ public class HandleMovementTwo {
             environment.leftSideTrees[1].setFitWidth(70);
             environment.leftSideTrees[1].setFitHeight(50);
 
-            environment.leftSideTrees[1].layoutXProperty().bind(environment.leftLine.endXProperty().subtract(environment.leftSideTrees[1].getFitWidth()*1.4));
+            environment.leftSideTrees[1].layoutXProperty().bind(environment.leftLine.endXProperty().subtract(environment.leftSideTrees[1].getFitWidth()*1.6));
             environment.leftSideTrees[1].layoutYProperty().bind(environment.leftLine.endYProperty().add(environment.leftSideTrees[1].getFitHeight()/1.7));
             accelartionX= 0;
             accelerationLY=0;
@@ -104,10 +108,10 @@ public class HandleMovementTwo {
             environment.leftSideTrees[i].setTranslateY(environment.leftSideTrees[i].getTranslateY()+10);
 
         }*/
-        if(environment.rightSideTrees[1].getFitWidth() >= 250){
+        if(environment.rightSideTrees[1].getFitWidth() >= 200){
             environment.rightSideTrees[1].setFitHeight(70);
             environment.rightSideTrees[1].setFitWidth(50);
-            environment.rightSideTrees[1].layoutXProperty().bind(environment.rightLine.endXProperty().add(environment.rightSideTrees[0].getFitWidth()/2));
+            environment.rightSideTrees[1].layoutXProperty().bind(environment.rightLine.endXProperty().add(environment.rightSideTrees[0].getFitWidth() + 15));
             environment.rightSideTrees[1].layoutYProperty().bind(environment.rightLine.endYProperty().add(environment.rightSideTrees[0].getFitHeight()/1.7));
         accelartionRX=0;
         acclerationY=0;}

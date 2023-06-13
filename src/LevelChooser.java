@@ -19,7 +19,7 @@ public class LevelChooser {
    // public void start(Stage stage) throws Exception {
     public static Scene getLevelChooserScene(){
         Pane parent = new Pane();
-        Image backgroundImage = new Image("C:\\Users\\Siyan\\Downloads\\1798247.jpg");
+        Image backgroundImage = new Image("C:\\Users\\Siyan\\Desktop\\levelchosser.jpg");
         parent.setBackground(new Background(new BackgroundImage(backgroundImage,null,null,null,null)));
 
         Pane subParent = new HBox(5);
@@ -69,6 +69,7 @@ public class LevelChooser {
     //  subParent.setBackground(new Background(new BackgroundFill(Color.FORESTGREEN,null,null)));
         title.setLayoutX(430);
         title.setLayoutY(160);
+        parent.getChildren().add(MenuPane.getMenuPane());
         parent.getChildren().add(title);
         parent.getChildren().add(subParent);
 

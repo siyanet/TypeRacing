@@ -25,6 +25,8 @@ public class LogIn {
                 ResultSet resultSet = preparedStatement.executeQuery();
                 if(resultSet.next()){
                     ConnectToChooser.choose();
+                    environment.userName = resultSet.getString(1);
+
 
 
 

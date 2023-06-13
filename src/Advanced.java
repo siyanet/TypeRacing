@@ -5,8 +5,8 @@ public class Advanced extends Level{
     @Override
     public void start() {
         Stage stage = SignUp.getStage();
-        Scene scene= environment.getEnvironmentScene(2,stage);
+        Scene scene= environment.getEnvironmentScene(1,stage);
         environment.levelIndicator = 3;
-        stage.setScene(scene);
+       stage.setScene(scene);
     }
 }

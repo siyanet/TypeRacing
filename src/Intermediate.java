@@ -7,6 +7,6 @@ public class Intermediate extends Level {
         Stage stage = SignUp.getStage();
         Scene scene= environment.getEnvironmentScene(3,stage);
         environment.levelIndicator = 2;
-        stage.setScene(scene);
+       stage.setScene(scene);
     }
 }

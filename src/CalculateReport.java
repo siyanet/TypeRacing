@@ -1,7 +1,13 @@
 public class CalculateReport {
    static int expectedAccuracy;
     static int expectedSpeed;
+    static int speed;
+    static int total;
+    static int accuracy;
     public static void calculate(){
+         speed = (int)TypeEventHandler.correctWord / 60;
+         total = (int)(TypeEventHandler.correctWord + TypeEventHandler.wrongWord);
+         accuracy = (int)(((total - TypeEventHandler.wrongWord) / total) *100);
         if(environment.levelIndicator == 1){
             expectedAccuracy = 95;
             expectedSpeed = 120;
