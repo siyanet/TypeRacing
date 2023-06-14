@@ -57,11 +57,13 @@ public class environment {
    static int levelIndicator;
    static Pane fixedPane;
    static String userName;
+   static int overAllMinute;
 
     //@Override
   // public void start(Stage stage) throws Exception {
     public static Scene getEnvironmentScene(int minute,Stage stage){
         remainingSeconds = 60 * minute;
+        overAllMinute = minute;
         pane = new Pane();
         Canvas canvas = new Canvas(700,700);
         GraphicsContext gc = canvas.getGraphicsContext2D();

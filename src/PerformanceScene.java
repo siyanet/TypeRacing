@@ -3,6 +3,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -21,11 +22,15 @@ public class PerformanceScene  {
 
                 tableView = new TableView<>();
                 VBox root = new VBox(tableView);
+                Pane pane = MenuPane.getMenuPane();
+                Pane mainPane = new Pane();
+                mainPane.getChildren().add(pane);
+                mainPane.getChildren().add(root);
 
 
 
                 retrieveData();
-        Scene scene = new Scene(root, 400, 300);
+        Scene scene = new Scene(mainPane, 700, 700);
         return scene;
             }
 

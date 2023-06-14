@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -117,6 +118,9 @@ public class SignUp extends Application {
                 stage.setScene(signUpScene);});
         });
         stageCopy = stage;
+        stage.setTitle("Type Racer");
+        Image imageLogo = new Image("C:\\Users\\Siyan\\Desktop\\TypeRacer_logo.png");
+        stage.getIcons().add(imageLogo);
 
         stage.show();
 

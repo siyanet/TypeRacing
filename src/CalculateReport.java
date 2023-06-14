@@ -5,7 +5,7 @@ public class CalculateReport {
     static int total;
     static int accuracy;
     public static void calculate(){
-         speed = (int)TypeEventHandler.correctWord / 60;
+         speed = (int)TypeEventHandler.correctWord / environment.overAllMinute;
          total = (int)(TypeEventHandler.correctWord + TypeEventHandler.wrongWord);
          accuracy = (int)(((total - TypeEventHandler.wrongWord) / total) *100);
         if(environment.levelIndicator == 1){

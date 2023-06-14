@@ -69,7 +69,6 @@ public class LevelChooser {
     //  subParent.setBackground(new Background(new BackgroundFill(Color.FORESTGREEN,null,null)));
         title.setLayoutX(430);
         title.setLayoutY(160);
-        parent.getChildren().add(MenuPane.getMenuPane());
         parent.getChildren().add(title);
         parent.getChildren().add(subParent);
 

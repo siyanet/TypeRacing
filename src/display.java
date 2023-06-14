@@ -14,7 +14,7 @@ public class display {
     private static Pane pane;
     public static Pane getPane(){
 
-    pane = new VBox();
+    pane = new VBox(5);
     Pane pane1 = new StackPane();
     Rectangle rectangle = new Rectangle();
         rectangle.setHeight(30);
