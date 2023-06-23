@@ -1,7 +1,5 @@
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.security.NoSuchAlgorithmException;
+import java.sql.*;
 
 public class Register {
     public void register(){
@@ -12,16 +10,16 @@ if(SignUp.textFieldName.getText().isEmpty() || SignUp.textFieldPassword.getText(
     alert.errorMessage("Invalid Password at least 8 characters are required");
 }
 else{
-   // String checkUserName = "select Name from User_Account where Name '" +  SignUp.textFieldName.getText() +"'";
+    String checkUserName = "select Name from User_Account where Name ='" +  SignUp.textFieldName.getText() +"'";
     try{
         Connection connection = ConnectDatabase.getConnection();
         Statement statement = connection.createStatement();
-    //    ResultSet result = statement.executeQuery(checkUserName);
+        ResultSet result = statement.executeQuery(checkUserName);
       //  System.out.println("ok");
-      //  if(result.next()){
-      //      alert.errorMessage("The user name is taken");
-      // }
-      //  else{
+       if(result.next()){
+            alert.errorMessage("The user name is taken");
+      }
+        else{
             Encryptor encryptor = new Encryptor();
            String hashed = encryptor.encryptPassword(SignUp.textFieldPassword.getText());
            String insertData = "INSERT INTO User_Account (Name, Password) VALUES (?, ?)";
@@ -31,7 +29,7 @@ else{
             preparedStatement.executeUpdate();
             alert.sucessMessage("you are registered successfully");
 
-       // }
+       }
 
     }
     catch (Exception e){
@@ -39,5 +37,5 @@ else{
     }
 
 }
-    }
-}//
+}
+}

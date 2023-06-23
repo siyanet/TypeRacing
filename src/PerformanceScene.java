@@ -29,6 +29,7 @@ public class PerformanceScene  {
 
 
 
+
                 retrieveData();
         Scene scene = new Scene(mainPane, 700, 700);
         return scene;
